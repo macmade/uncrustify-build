@@ -10,11 +10,16 @@
 all: uncrustify_checkout uncrustify_update configure build install
 	
 	@:
+
+local: uncrustify_checkout uncrustify_update configure-local build-local install-local
+	
+	@:
 	
 clean:
 	
 	@echo "*** Cleaning all build files"
 	@rm -rf build/*
+	@rm -rf build-local/*
 
 distclean: clean
 	
@@ -36,12 +41,27 @@ configure:
 	@echo "*** Configuring Uncrustify"
 	@cd build && cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr/local/uncrustify ../source/uncrustify
 
+configure-local:
+	
+	@echo "*** Configuring Uncrustify"
+	@cd build-local && cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=$(realpath dist) ../source/uncrustify
+
 build:
 	
 	@echo "*** Building Uncrustify"
 	@cd build && $(MAKE)
+	
+build-local:
+	
+	@echo "*** Building Uncrustify"
+	@cd build-local && $(MAKE)
 
 install:
 	
 	@echo "*** Installing Uncrustify"
 	@cd build && $(MAKE) install
+
+install-local:
+	
+	@echo "*** Installing Uncrustify"
+	@cd build-local && $(MAKE) install
