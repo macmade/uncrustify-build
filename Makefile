@@ -65,3 +65,4 @@ install-local:
 	
 	@echo "*** Installing Uncrustify"
 	@cd build-local && $(MAKE) install
+	@codesign --sign "Developer ID Application: Jean-David Gadina (326Y53CJMD)" --options runtime dist/bin/uncrustify
